@@ -1,0 +1,15 @@
+node_modules/
+dist/
+preview/
+czech-geojson-master/
+
+.DS_Store
+*.log
+
+.env
+.env.*
+
+root-write.txt
+package 2.json
+/logo.png
+data/test-write.txt
