@@ -1,5 +1,3 @@
-import * as XLSX from 'xlsx'
-
 const PDF_WORKER_SRC = new URL('pdfjs-dist/build/pdf.worker.min.mjs', import.meta.url).toString()
 
 const LABEL_KEYS = ['label', 'nazev', 'název', 'kategorie', 'diagnoza', 'diagnóza', 'name', 'region']
@@ -105,6 +103,8 @@ export function parseManualText(rawText) {
 
 export async function parseSpreadsheetFile(file) {
   const buffer = await file.arrayBuffer()
+  // SheetJS je velký balík – načítá se až při prvním importu tabulky.
+  const XLSX = await import('xlsx')
   const workbook = XLSX.read(buffer, { type: 'array' })
   const sheetName = workbook.SheetNames[0]
   if (!sheetName) return []
