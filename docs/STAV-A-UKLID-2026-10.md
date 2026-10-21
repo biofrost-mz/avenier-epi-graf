@@ -7,7 +7,7 @@
 | Účel | Generátor epidemiologických grafů pro články Avenier (PNG/PDF/iframe) |
 | Stack | React 18, Vite 5, d3 7, jsPDF, html-to-image, pdfjs-dist 5, SheetJS (xlsx 0.18.5) |
 | Backend | žádný – stav v `localStorage`, embed konfigurace v URL |
-| Hosting | Netlify (`netlify.toml`) |
+| Hosting | Netlify – projekt `ave-grafy` (`netlify.toml`), PR dostávají deploy preview |
 | Viditelnost repa | **veřejné** |
 | Historie | 1 commit (březen 2026), od té doby bez vývoje |
 | Příbuzné repo | `mapy-nemoci` (stejný stack, mapa krajů) – sdílí logo, paletu i postup embedu |
