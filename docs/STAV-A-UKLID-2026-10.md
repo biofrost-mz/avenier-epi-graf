@@ -36,7 +36,7 @@
    `https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz` (v této cloud session byl CDN nedostupný).
 2. `App.jsx` má ~2 300 řádků – pro další vývoj rozdělit na `components/` (grafy, modaly) a `hooks/`.
 3. Export: jsPDF a html-to-image se načítají až při exportu (hlavní bundle ~256 kB); PDF je komprimované (graf ~230 kB místo ~15 MB).
-4. Žádný lint ani CI.
+4. CI (GitHub Actions: testy + build) přidáno; lint chybí.
 5. Data PDF v `data/` jsou veřejná data SZÚ – v pořádku, ale zvětšují repo (2,6 MB).
 
 ## Úkoly pro vlastníka
