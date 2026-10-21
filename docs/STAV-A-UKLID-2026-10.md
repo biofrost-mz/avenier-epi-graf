@@ -35,7 +35,7 @@
    Riziko je nízké (soubory nahrává sám redaktor), ale doporučená náprava je přechod na oficiální build
    `https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz` (v této cloud session byl CDN nedostupný).
 2. `App.jsx` má ~2 300 řádků – pro další vývoj rozdělit na `components/` (grafy, modaly) a `hooks/`.
-3. Hlavní bundle je stále ~660 kB (jsPDF + html2canvas); lze je načítat líně až při exportu.
+3. Export: jsPDF a html-to-image se načítají až při exportu (hlavní bundle ~256 kB); PDF je komprimované (graf ~230 kB místo ~15 MB).
 4. Žádný lint ani CI.
 5. Data PDF v `data/` jsou veřejná data SZÚ – v pořádku, ale zvětšují repo (2,6 MB).
 

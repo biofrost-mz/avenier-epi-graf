@@ -1,7 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { arc as d3Arc, line as d3Line, pie as d3Pie } from 'd3'
-import { toPng } from 'html-to-image'
-import { jsPDF } from 'jspdf'
 import {
   buildDiagnosisTimelineRows,
   buildTopDiagnosisRows,
@@ -1742,6 +1740,8 @@ export default function App() {
     if (!exportPreviewRef.current) return
     try {
       setExportMessage(`Generuji ${format.toUpperCase()}...`)
+      // Exportní knihovny se načítají až při prvním exportu (menší úvodní bundle).
+      const { toPng } = await import('html-to-image')
       const dataUrl = await toPng(exportPreviewRef.current, {
         pixelRatio: 2,
         cacheBust: true,
@@ -1755,7 +1755,8 @@ export default function App() {
         setExportMessage('PNG export hotový.')
         return
       }
-      const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' })
+      const { jsPDF } = await import('jspdf')
+      const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4', compress: true })
       const pageWidth = pdf.internal.pageSize.getWidth()
       const pageHeight = pdf.internal.pageSize.getHeight()
       const margin = 10
@@ -1764,13 +1765,14 @@ export default function App() {
       const imgHeight = (props.height * imgWidth) / props.width
       const printableHeight = pageHeight - margin * 2
 
+      // Alias „chart“ vloží obrázek do PDF jen jednou i při více stránkách, FAST zapne kompresi.
       let offsetY = 0
-      pdf.addImage(dataUrl, 'PNG', margin, margin - offsetY, imgWidth, imgHeight)
+      pdf.addImage(dataUrl, 'PNG', margin, margin - offsetY, imgWidth, imgHeight, 'chart', 'FAST')
       offsetY += printableHeight
 
       while (offsetY < imgHeight) {
         pdf.addPage()
-        pdf.addImage(dataUrl, 'PNG', margin, margin - offsetY, imgWidth, imgHeight)
+        pdf.addImage(dataUrl, 'PNG', margin, margin - offsetY, imgWidth, imgHeight, 'chart', 'FAST')
         offsetY += printableHeight
       }
       pdf.save(`${slugify(title) || 'epi-graf'}.pdf`)
